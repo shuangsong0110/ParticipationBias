@@ -79,9 +79,9 @@ Download munged GWAS summary statistics for educational attainment:
 wget -O EA.sumstats.gz https://hu-my.sharepoint.com/:u:/r/personal/shuangsong_hsph_harvard_edu/Documents/research_share/ParticipationBias/EA.sumstats.gz?csf=1&web=1&e=bXlEGz
 ```
 
-Perform LDSC:
+Perform LDSC (python2):
 ```
-ldsc.py
+python ./ldsc.py --rg PB.sumstats.gz,EA.sumstats.gz --ref-ld UKBB.EUR --w-ld UKBB.EUR --intercept-gencov 0,0
 ```
 
 Make adjustments:
