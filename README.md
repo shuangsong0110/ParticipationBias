@@ -28,25 +28,29 @@ devtools::install_github("shuangsong0110/ParticipationBias")
 ```
 
 ## :scroll: Prepare GWAS summary statistics
-Please prepare the GWAS summary statistics in the following format (including the header line):
+Please prepare the GWAS summary statistics in the following format (including the header line, sep='\t'):
 ```
-   chr        rsid     ref   alt       z         
-    1      rs4040617    G     A     -0.199    
-    1      rs4075116    C     T      0.646     
-    1      rs9442385    T     G     -0.016    
+     SNP      A1    A2       Z         N       
+ rs4040617    G     A     -0.199     360000
+ rs4075116    C     T      0.646     360000
+ rs9442385    T     G     -0.016     360000
     ...
 ```
-**chr**: chromosome
 
-**rsid**: SNP rsid
+**SNP**: SNP rsid
 
-**ref**: reference allele
+**A1**: reference allele
 
-**alt**: alternative allele
+**A2**: alternative allele
 
-**z**: GWAS z score
+**Z**: GWAS z score
 
+**N**: GWAS sample size
 
+### Munge summary statistics for trait 1:
+```
+python2 ./munge_sumstats.py --sumstats ./trait1.txt  --merge-alleles pan.snipar.snplist --out ./trait1.summs
+```
 
 ## :rocket: Heritability adjustments
 ### Step 1: Run LDSC
@@ -65,9 +69,14 @@ Please prepare the GWAS summary statistics in the following format (including th
 
 
 ## :key: An example
-Download GWAS summary statistics for educational attainment:
+Download munged GWAS summary statistics for participation:
 ```
-wget
+wget -O PB.sumstats.gz https://hu-my.sharepoint.com/:u:/r/personal/shuangsong_hsph_harvard_edu/Documents/research_share/ParticipationBias/PB.sumstats.gz?csf=1&web=1&e=OtgQ1L
+```
+
+Download munged GWAS summary statistics for educational attainment:
+```
+wget -O EA.sumstats.gz https://hu-my.sharepoint.com/:u:/r/personal/shuangsong_hsph_harvard_edu/Documents/research_share/ParticipationBias/EA.sumstats.gz?csf=1&web=1&e=bXlEGz
 ```
 
 Perform LDSC:
