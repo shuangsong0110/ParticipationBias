@@ -9,6 +9,7 @@ A pipeline for adjusting participation bias in the estimation of heritability an
 * [Prepare GWAS summary statistics](#scroll-prepare-gwas-summary-statistics)
 * [Heritability adjustments](#rocket-heritability-adjustments)
 * [Genetic correlation adjustments](#rocket-genetic-correlation-adjustments)
+* [An example](#key-an-example)
 
 
 ## :white_check_mark: Prerequisites
@@ -60,4 +61,24 @@ Please prepare the GWAS summary statistics in the following format (including th
 
 
 ### Step 2: Making adjustments
+
+
+
+## :key: An example
+Download GWAS summary statistics for educational attainment:
+```
+wget
+```
+
+Perform LDSC:
+```
+ldsc.py
+```
+
+Make adjustments:
+```
+library(ParticipationBias)
+```
+
+
 
