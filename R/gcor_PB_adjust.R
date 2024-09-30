@@ -14,7 +14,7 @@
 #' @param lambda recurrence ratio. Default=2 in UKBB
 #' @param shift_sd1 standard deviations of the mean shift of phenotype 1, default=1/sqrt(HSE_sample_size)
 #' @param shift_sd2 standard deviations of the mean shift of phenotype 2, default=1/sqrt(HSE_sample_size)
-#' @import data.table stats utils mvtnorm
+#' @import data.table stats utils mvtnorm readr
 #' @export
 
 gcor_PB_adjust <- function(path, mean_shift1, mean_shift2,
@@ -30,7 +30,7 @@ gcor_PB_adjust <- function(path, mean_shift1, mean_shift2,
   if(T){
     system(paste0("grep ' ", path,
                   "sumstats/PB.sumstats.gz  ", path, "sumstats/", trait_name1, ".sumstats.gz' ",path,'results_',trait_name1,"/res_rg.log  > ",path,'/results_',trait_name1,"/res_rg_tab.log"))
-    a=readr::read_log(paste0(path,'results_',trait_name1,'/res_rg_tab.log'),show_col_types =F, progress=F)
+    a=read_log(paste0(path,'results_',trait_name1,'/res_rg_tab.log'), progress=F)
     if(a$X7=='NA'){
       return(NA)
     }
@@ -39,7 +39,7 @@ gcor_PB_adjust <- function(path, mean_shift1, mean_shift2,
       return(NA)
     }
     h22_est.se <- a$X8
-    if(trait_name1){
+    if(trait_binary1){
       P <- K <- K1
       h22_est <- cvt.h2(K,P,h22_est)
       h22_est.se <- cvt.h2(K,P,h22_est.se)
@@ -56,7 +56,7 @@ gcor_PB_adjust <- function(path, mean_shift1, mean_shift2,
   if(T){
     system(paste0("grep ' ", path,
                   "sumstats/PB.sumstats.gz  ", path, "sumstats/", trait_name2, ".sumstats.gz' ",path,'results_',trait_name2,"/res_rg.log  > ",path,'/results_',trait_name2,"/res_rg_tab.log"))
-    a=readr::read_log('res_rg_tab.log',show_col_types =F, progress=F)
+    a=read_log(paste0(path,'results_',trait_name2,'/res_rg_tab.log'), progress=F)
     if(a$X7=='NA'){
       return(NA)
     }
@@ -65,7 +65,7 @@ gcor_PB_adjust <- function(path, mean_shift1, mean_shift2,
       return(NA)
     }
     h22_est.se <- a$X8
-    if(trait_name2){
+    if(trait_binary2){
       P <- K <-  K2
       h22_est <- cvt.h2(K,P,h22_est)
       h22_est.se <- cvt.h2(K,P,h22_est.se)
@@ -82,8 +82,8 @@ gcor_PB_adjust <- function(path, mean_shift1, mean_shift2,
   # pheno2 <- trait3
   if(T){
     system(paste0("grep ' ", path,
-                  "sumstats/", trait_name1,".sumstats.gz  ", path, "sumstats/", trait_name2, ".sumstats.gz' ",path,'results_',trait_name2,"/res_rg.log  > ",path,'/results_',trait_name2,"/res_rg_tab.log"))
-    a=readr::read_log(paste0(path,'results_',trait_name2,'/res_rg_tab.log'),show_col_types =F, progress=F)
+                  "sumstats/", trait_name1,".sumstats.gz  ", path, "sumstats/", trait_name2, ".sumstats.gz' ",path,'results_',trait_name1, '_', trait_name2,"/res_rg.log  > ",path,'/results_',trait_name1,'_', trait_name2,"/res_rg_tab.log"))
+    a=read_log(paste0(path,'results_',trait_name1, '_', trait_name2,'/res_rg_tab.log'), progress=F)
     phig_est <- a$X3
     phig_est_se <- a$X4
   }
@@ -100,26 +100,26 @@ gcor_PB_adjust <- function(path, mean_shift1, mean_shift2,
   # trait <- trait2
   # shift <- shift2
   if(T){
-    nom2 <- fread(paste0(path,'/results_',trait_name1,'/nomvalues.txt')) ### gcov
+    nom2 <- data.frame(fread(paste0(path,'/results_',trait_name1,'/nomvalues.txt')) )### gcov
     #denom <- fread('denomvalues.txt') ### sqrt(h21*h22)
-    hsq1 <- fread(paste0(path,'/results_',trait_name1,'/hsq1.txt'))
-    hsq2 <- fread(paste0(path,'/results_',trait_name1,'/hsq2.txt'))
+    hsq1 <- data.frame(fread(paste0(path,'/results_',trait_name1,'/hsq1.txt')))
+    hsq2 <- data.frame(fread(paste0(path,'/results_',trait_name1,'/hsq2.txt')))
     hsq1.obs <- hsq1/ get_delta_prime_obs(alpha=alpha,lam=lambda,alpha_3=1/3)^2
   }
   # trait <- trait3
   # shift <- shift3
   if(T){
     #setwd(paste0('/home/songs/UKB_summary/20210211/clean.ldsc/summs/',trait))
-    nom3 <- fread(paste0(path,'/results_',trait_name2,'/nomvalues.txt')) ### gcov
+    nom3 <- data.frame(fread(paste0(path,'/results_',trait_name2,'/nomvalues.txt'))) ### gcov
     #denom <- fread('denomvalues.txt') ### sqrt(h21*h22)
-    hsq3 <- fread(paste0(path,'/results_',trait_name2,'/hsq2.txt'))
+    hsq3 <- data.frame(fread(paste0(path,'/results_',trait_name2,'/hsq2.txt')))
   }
   # pheno1 <- trait2
   # pheno2 <- trait3
   if(T){
     #setwd(paste0('/home/songs/datasets/HSE/gcor/',pheno1,'_',pheno2))
     #nom23 <- fread('nomvalues.txt') ### gcov
-    nom23 <- fread(paste0(path,'/results_',trait_name1,'_',trait_name2, '/nomvalues.txt')) ### gcov
+    nom23 <- data.frame(fread(paste0(path,'/results_',trait_name1,'_',trait_name2, '/nomvalues.txt'))) ### gcov
 
   }
   rg_est2 <- nom2/sqrt(hsq1*hsq2)
@@ -151,3 +151,18 @@ gcor_PB_adjust <- function(path, mean_shift1, mean_shift2,
 
 
 }
+
+
+
+
+
+# gcor_PB_adjust(path='/n/home04/ssong0110/testRpackage/',
+#                mean_shift1=0.438, mean_shift2=-0.138,
+#                trait_name1='EA', trait_name2='BMI',
+#                trait_binary1=F, trait_binary2=F,
+#                K1=1, K2=1, h2x=0.125, alpha=0.055, lambda=2,
+#                shift_sd1=1/sqrt(20208), shift_sd2=1/sqrt(20208))
+
+
+
+

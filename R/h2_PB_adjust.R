@@ -9,7 +9,7 @@
 #' @param alpha participation rate. Default=0.055 in UKBB
 #' @param lambda recurrence ratio. Default=2 in UKBB
 #' @param shift_sd standard deviations of the mean shift, default=1/sqrt(HSE_sample_size)
-#' @import data.table stats utils mvtnorm
+#' @import data.table stats utils mvtnorm readr
 #' @export
 
 
@@ -20,7 +20,7 @@ h2_PB_adjust <- function(path, mean_shift, trait_name='trait1',
   #path <- result_path
   system(paste0("grep ' ", path,
   "sumstats/PB.sumstats.gz  ", path, "sumstats/", trait_name, ".sumstats.gz' ",path,'results_',trait_name,"/res_rg.log  > ",path,'/results_',trait_name,"/res_rg_tab.log"))
-  a=readr::read_log(paste0(path,'results_',trait_name,'/res_rg_tab.log'),show_col_types =F, progress=F)
+  a=read_log(paste0(path,'results_',trait_name,'/res_rg_tab.log'), progress=F)
   if(a$X7=='NA'){
     return(NA)
   }
@@ -42,10 +42,10 @@ h2_PB_adjust <- function(path, mean_shift, trait_name='trait1',
   #h21_est <- 0.125
 
   correct0 <- get_correct_diff_h2_jack_noldsc(h21=h2x,h22_est=h22_est,rg_est=gcor_est, shift=mean_shift)
-  nom <- fread(paste0(path,'/results_',trait_name,'/nomvalues.txt')) ### gcov
+  nom <- data.frame(fread(paste0(path,'/results_',trait_name,'/nomvalues.txt'))) ### gcov
   #denom <- fread('denomvalues.txt') ### sqrt(h21*h22)
-  hsq1 <- fread(paste0(path,'/results_',trait_name,'/hsq1.txt'))
-  hsq2 <- fread(paste0(path,'/results_',trait_name,'/hsq2.txt'))
+  hsq1 <- data.frame(fread(paste0(path,'/results_',trait_name,'/hsq1.txt')))
+  hsq2 <- data.frame(fread(paste0(path,'/results_',trait_name,'/hsq2.txt')))
   hsq1.obs <- hsq1/ get_delta_prime_obs(alpha=alpha,lam=lambda,alpha_3=1/3)^2
   rg_est <- nom/sqrt(hsq1*hsq2)
   shift.sd <- rnorm(length(hsq1),mean=mean_shift,sd=shift_sd)
@@ -69,5 +69,6 @@ h2_PB_adjust <- function(path, mean_shift, trait_name='trait1',
               rhog_se_est=a$X4))
 
 }
+#h2_PB_adjust(path,mean_shift,trait_name)
 
 
