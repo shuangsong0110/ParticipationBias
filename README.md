@@ -8,7 +8,7 @@ A pipeline for adjusting participation bias in the estimation of heritability an
 * [Installation](#hammer_and_wrench-installation)
 * [Prepare GWAS summary statistics](#scroll-prepare-gwas-summary-statistics)
 * [Example 1: Heritability adjustments](#rocket-example-1-heritability-adjustments)
-* [Example 2: Genetic correlation adjustments](#rocket-example-1:genetic-correlation-adjustments)
+* [Example 2: Genetic correlation adjustments](#rocket-example-2-genetic-correlation-adjustments)
 
 
 
@@ -84,10 +84,10 @@ python ${path}/ldsc_jackknife/ldsc.py --rg ${path}/sumstats/PB.sumstats.gz,${pat
 ### Step 2: Making adjustments
 ```
 library(ParticipationBias)
-res <- h2_PB_adjust(path='/home/local/', ## specify your working path, consistent to the LDSC path
-                    mean_shift=0.438,
-                    trait_name='EA')
-print(res)
+res_h2 <- h2_PB_adjust(path = '/home/local/', ## specify your working path, consistent to the LDSC path
+                       mean_shift = 0.438,
+                       trait_name = 'EA')
+print(res_h2)
 ```
 
 
@@ -103,7 +103,7 @@ print(res)
 
 
 
-## :rocket: Genetic correlation adjustments
+## :rocket: Example 2: Genetic correlation adjustments
 
 Here we use the **genetic correlation** between Educational Attainment (**EA**) and **BMI** as an example.
 
@@ -126,7 +126,7 @@ wget -O ./sumstats/BMI.sumstats.gz https://github.com/shuangsong0110/Participati
 ```
 
 ### Step 1: Run LDSC
-**1. Participation & EA**
+**a. Participation & EA**
 ```
 path=/home/local/ (specify your working path)
 trait_name='EA'
@@ -135,7 +135,7 @@ cd ${path}/results_${trait_name}
 python ${path}/ldsc_jackknife/ldsc.py --rg ${path}/sumstats/PB.sumstats.gz,${path}/sumstats/${trait_name}.sumstats.gz --ref-ld ${path}/ldsc_jackknife/UKBB.EUR --w-ld ${path}/ldsc_jackknife/UKBB.EUR --intercept-gencov 0,0 --out res_rg
 ```
 
-**2. Participation & BMI**
+**b. Participation & BMI**
 ```
 path=/home/local/ (specify your working path)
 trait_name='BMI'
@@ -144,7 +144,7 @@ cd ${path}/results_${trait_name}
 python ${path}/ldsc_jackknife/ldsc.py --rg ${path}/sumstats/PB.sumstats.gz,${path}/sumstats/${trait_name}.sumstats.gz --ref-ld ${path}/ldsc_jackknife/UKBB.EUR --w-ld ${path}/ldsc_jackknife/UKBB.EUR --intercept-gencov 0,0 --out res_rg
 ```
 
-**3. EA & BMI**
+**c. EA & BMI**
 ```
 path=/home/local/ (specify your working path)
 trait_name1='EA'
@@ -157,10 +157,10 @@ python ${path}/ldsc_jackknife/ldsc.py --rg ${path}/sumstats/${trait_name1}.sumst
 ### Step 2: Making adjustments
 ```
 library(ParticipationBias)
-res <- gcor_PB_adjust(path='/home/local/', ## specify your working path, consistent to the LDSC path
-                    mean_shift=0.438,
-                    trait_name='EA')
-print(res)
+res_gcor <- gcor_PB_adjust(path = '/home/local/', ## specify your working path, consistent to the LDSC path
+                      mean_shift1 = 0.438, mean_shift2 = -0.138,
+                      trait_name1 = 'EA', trait_name2 = 'BMI')
+print(res_gcor)
 ```
 
 
