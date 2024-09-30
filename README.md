@@ -163,5 +163,7 @@ res_gcor <- gcor_PB_adjust(path = '/home/local/', ## specify your working path, 
 print(res_gcor)
 ```
 
+## :busts_in_silhouette: Maintainer
 
+Please contact Shuang Song (shuangsong@hsph.harvard.edu) if there are any problems or questions.
 
