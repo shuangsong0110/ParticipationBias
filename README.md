@@ -96,24 +96,32 @@ ${summstats_path}/${trait_name1}.sumstats.gz,${summstats_path}/${trait_name2}.su
 ## :key: An example
 Download munged GWAS summary statistics for participation:
 ```
+path=/home/local/ (change to your working path)
 mkdir ./sumstats
-wget -O ./sumstats/PB.sumstats.gz https://hu-my.sharepoint.com/:u:/g/personal/shuangsong_hsph_harvard_edu/ESW7fPcQgT5PqjfrWJ56SVMByHbYxO2k9MwNPjskeXq-AA?e=MJ6U3G
+wget -O ./sumstats/PB.sumstats.gz https://github.com/shuangsong0110/ParticipationBias/raw/refs/heads/main/example_data/PB.sumstats.gz
 ```
 
 Download munged GWAS summary statistics for educational attainment:
 ```
-wget -O ./sumstats/EA.sumstats.gz https://hu-my.sharepoint.com/:u:/g/personal/shuangsong_hsph_harvard_edu/EfsTBJKUxMJMpPAx_p69fCQB1ZZVKTWM86_aNEK4EXmJog?e=0Ho7qS
+wget -O ./sumstats/EA.sumstats.gz https://github.com/shuangsong0110/ParticipationBias/raw/refs/heads/main/example_data/EA.sumstats.gz
 ```
 
 Perform LDSC (python2):
 ```
-mkdir ./results_EA
-python ./ldsc_jackknife/ldsc.py --rg PB.sumstats.gz,EA.sumstats.gz --ref-ld ./ldsc_jackknife/UKBB.EUR --w-ld ./ldsc_jackknife/UKBB.EUR --intercept-gencov 0,0 --out ./results_EA
+path=/home/local/ (specify your working path)
+trait_name='EA'
+mkdir ./results_${trait_name}
+cd ./results_${trait_name}
+python ${path}/ldsc_jackknife/ldsc.py --rg ${path}/sumstats/PB.sumstats.gz,${path}/sumstats/${trait_name}.sumstats.gz --ref-ld ${path}/ldsc_jackknife/UKBB.EUR --w-ld ${path}/ldsc_jackknife/UKBB.EUR --intercept-gencov 0,0 --out res_rg
 ```
 
 Make adjustments:
 ```
 library(ParticipationBias)
+res <- h2_PB_adjust(path='/home/local/', ## specify your working path, consistent to the LDSC path
+                    mean_shift=0.438,
+                    trait_name='EA')
+print(res)
 ```
 
 
