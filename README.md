@@ -57,17 +57,41 @@ python2 ./munge_sumstats.py --sumstats ./trait1.txt  --merge-alleles pan.snipar.
 ```
 
 ## :rocket: Example 1: Heritability adjustments
+
+Here we use the **heritability** of Educational Attainment (**EA**) as an example.
+
 ### Step 1: Run LDSC
+Download munged GWAS summary statistics for participation:
 ```
-cd ${result_path}
-python ${ldsc_path}/ldsc.py --rg ${summstats_path}/PB.sumstats.gz,${summstats_path}/${trait_name}.sumstats.gz --ref-ld ${ldsc_path}/UKBB.EUR --w-ld ${ldsc_path}/UKBB.EUR --intercept-gencov 0,0
+path=/home/local/ (change to your working path)
+mkdir ./sumstats
+wget -O ./sumstats/PB.sumstats.gz https://github.com/shuangsong0110/ParticipationBias/raw/refs/heads/main/example_data/PB.sumstats.gz
+```
+
+Download munged GWAS summary statistics for EA (Users could also specify their own GWAS summary statistics):
+```
+wget -O ./sumstats/EA.sumstats.gz https://github.com/shuangsong0110/ParticipationBias/raw/refs/heads/main/example_data/EA.sumstats.gz
+```
+
+Perform LDSC (python2):
+```
+path=/home/local/ (specify your working path)
+trait_name='EA'
+mkdir ${path}/results_${trait_name}
+cd ${path}/results_${trait_name}
+python ${path}/ldsc_jackknife/ldsc.py --rg ${path}/sumstats/PB.sumstats.gz,${path}/sumstats/${trait_name}.sumstats.gz --ref-ld ${path}/ldsc_jackknife/UKBB.EUR --w-ld ${path}/ldsc_jackknife/UKBB.EUR --intercept-gencov 0,0 --out res_rg
 ```
 
 ### Step 2: Making adjustments
 ```
 library(ParticipationBias)
-res <- h2_PB_adjust(path, mean_shift, trait_name='trait1', trait_binary=F, K=1)
+res <- h2_PB_adjust(path='/home/local/', ## specify your working path, consistent to the LDSC path
+                    mean_shift=0.438,
+                    trait_name='EA')
+print(res)
 ```
+
+
 **path**: working path
 
 **mean_shift**: mean shift of the phenotype of interest, between the sample of participant (UKBB) and the population, standardized in the sample of participants ((mean_participants-mean_population)/SE_in_participants)
@@ -81,6 +105,8 @@ res <- h2_PB_adjust(path, mean_shift, trait_name='trait1', trait_binary=F, K=1)
 
 
 ## :rocket: Genetic correlation adjustments
+
+Here we use the **genetic correlation** between Educational Attainment (**EA**) and **BMI** as an example.
 ### Step 1: Run LDSC
 ```
 cd ${result_path}
