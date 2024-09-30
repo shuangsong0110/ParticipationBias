@@ -21,6 +21,10 @@ The software is developed and tested in Linux and Windows environments.
 
 ## :hammer_and_wrench: Installation
 Download the jackknife LDSC software:
+```
+wget -O
+gzip -d 
+```
 
 In R:
 ```r
@@ -54,15 +58,36 @@ python2 ./munge_sumstats.py --sumstats ./trait1.txt  --merge-alleles pan.snipar.
 
 ## :rocket: Heritability adjustments
 ### Step 1: Run LDSC
-
+```
+cd ${result_path}
+python ${ldsc_path}/ldsc.py --rg ${summstats_path}/PB.sumstats.gz,${summstats_path}/${trait_name}.sumstats.gz --ref-ld ${ldsc_path}/UKBB.EUR --w-ld ${ldsc_path}/UKBB.EUR --intercept-gencov 0,0
+```
 
 ### Step 2: Making adjustments
+```
+library(ParticipationBias)
+res <- h2_PB_adjust(path, mean_shift, trait_name='trait1', trait_binary=F, K=1)
+```
+**path**: working path
+
+**mean_shift**: mean shift of the phenotype of interest, between the sample of participant (UKBB) and the population, standardized in the sample of participants ((mean_participants-mean_population)/SE_in_participants)
+
+**trait_name**: the name of the phenotype of interest
+
+**trait_binary**: whether the trait is binary
+
+**K**: prevalence of the binary trait
 
 
 
 ## :rocket: Genetic correlation adjustments
 ### Step 1: Run LDSC
-
+```
+cd ${result_path}
+python ${ldsc_path}/ldsc.py --rg ${summstats_path}/PB.sumstats.gz,${summstats_path}/${trait_name1}.sumstats.gz --ref-ld ${ldsc_path}/UKBB.EUR --w-ld ${ldsc_path}/UKBB.EUR --intercept-gencov 0,0
+python ${ldsc_path}/ldsc.py --rg ${summstats_path}/PB.sumstats.gz,${summstats_path}/${trait_name2}.sumstats.gz --ref-ld ${ldsc_path}/UKBB.EUR --w-ld ${ldsc_path}/UKBB.EUR --intercept-gencov 0,0
+${summstats_path}/${trait_name1}.sumstats.gz,${summstats_path}/${trait_name2}.sumstats.gz --ref-ld ${ldsc_path}/UKBB.EUR --w-ld ${ldsc_path}/UKBB.EUR 
+```
 
 ### Step 2: Making adjustments
 
