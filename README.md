@@ -110,8 +110,8 @@ Perform LDSC (python2):
 ```
 path=/home/local/ (specify your working path)
 trait_name='EA'
-mkdir ./results_${trait_name}
-cd ./results_${trait_name}
+mkdir ${path}/results_${trait_name}
+cd ${path}/results_${trait_name}
 python ${path}/ldsc_jackknife/ldsc.py --rg ${path}/sumstats/PB.sumstats.gz,${path}/sumstats/${trait_name}.sumstats.gz --ref-ld ${path}/ldsc_jackknife/UKBB.EUR --w-ld ${path}/ldsc_jackknife/UKBB.EUR --intercept-gencov 0,0 --out res_rg
 ```
 
