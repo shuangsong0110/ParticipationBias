@@ -22,8 +22,8 @@ The software is developed and tested in Linux and Windows environments.
 ## :hammer_and_wrench: Installation
 Download the jackknife LDSC software:
 ```
-wget -O
-gzip -d 
+wget -O ldsc_jackknife.zip https://hu-my.sharepoint.com/:u:/g/personal/shuangsong_hsph_harvard_edu/ER4kG_r7dgpIlyHdjI0opPYB6o1p8K3ppP9DRQC__NmZRQ?e=PH4LKe
+gzip -d ldsc_jackknife.zip
 ```
 
 In R:
