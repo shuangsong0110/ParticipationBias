@@ -22,7 +22,7 @@ The software is developed and tested in Linux and Windows environments.
 ## :hammer_and_wrench: Installation
 Download the jackknife LDSC software:
 ```
-wget -O ldsc_jackknife.tar.gz https://hu-my.sharepoint.com/:u:/g/personal/shuangsong_hsph_harvard_edu/ER4kG_r7dgpIlyHdjI0opPYB6o1p8K3ppP9DRQC__NmZRQ?e=PH4LKe
+wget -O ldsc_jackknife.tar.gz "https://dl.dropboxusercontent.com/scl/fi/3lgslbgqz4c1sebje0473/ldsc_jackknife.tar.gz?rlkey=5l6c0mwgljamnbs3ddpearu2v&st=26gjcp8s&dl=1"
 tar -zxvf ldsc_jackknife.tar.gz
 ```
 
