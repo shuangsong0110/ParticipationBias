@@ -7,9 +7,9 @@ A pipeline for adjusting participation bias in the estimation of heritability an
 * [Prerequisites](#white_check_mark-prerequisites)
 * [Installation](#hammer_and_wrench-installation)
 * [Prepare GWAS summary statistics](#scroll-prepare-gwas-summary-statistics)
-* [Heritability adjustments](#rocket-heritability-adjustments)
-* [Genetic correlation adjustments](#rocket-genetic-correlation-adjustments)
-* [An example](#key-an-example)
+* [Example 1: Heritability adjustments](#rocket-example-1-heritability-adjustments)
+* [Example 2: Genetic correlation adjustments](#rocket-example-1:genetic-correlation-adjustments)
+
 
 
 ## :white_check_mark: Prerequisites
@@ -56,7 +56,7 @@ Please prepare the GWAS summary statistics in the following format (including th
 python2 ./munge_sumstats.py --sumstats ./trait1.txt  --merge-alleles pan.snipar.snplist --out ./trait1.summs
 ```
 
-## :rocket: Heritability adjustments
+## :rocket: Example 1 Heritability adjustments
 ### Step 1: Run LDSC
 ```
 cd ${result_path}
