@@ -59,8 +59,7 @@ python2 ./munge_sumstats.py --sumstats ./trait1.txt  --merge-alleles pan.snipar.
 ## :rocket: Example 1: Heritability adjustments
 
 Here we use the **heritability** of Educational Attainment (**EA**) as an example.
-
-### Step 1: Run LDSC
+### Step 0: Download files
 Download munged GWAS summary statistics for participation:
 ```
 path=/home/local/ (change to your working path)
@@ -72,8 +71,8 @@ Download munged GWAS summary statistics for EA (Users could also specify their o
 ```
 wget -O ./sumstats/EA.sumstats.gz https://github.com/shuangsong0110/ParticipationBias/raw/refs/heads/main/example_data/EA.sumstats.gz
 ```
+### Step 1: Run LDSC (python 2)
 
-Perform LDSC (python2):
 ```
 path=/home/local/ (specify your working path)
 trait_name='EA'
@@ -107,19 +106,8 @@ print(res)
 ## :rocket: Genetic correlation adjustments
 
 Here we use the **genetic correlation** between Educational Attainment (**EA**) and **BMI** as an example.
-### Step 1: Run LDSC
-```
-cd ${result_path}
-python ${ldsc_path}/ldsc.py --rg ${summstats_path}/PB.sumstats.gz,${summstats_path}/${trait_name1}.sumstats.gz --ref-ld ${ldsc_path}/UKBB.EUR --w-ld ${ldsc_path}/UKBB.EUR --intercept-gencov 0,0
-python ${ldsc_path}/ldsc.py --rg ${summstats_path}/PB.sumstats.gz,${summstats_path}/${trait_name2}.sumstats.gz --ref-ld ${ldsc_path}/UKBB.EUR --w-ld ${ldsc_path}/UKBB.EUR --intercept-gencov 0,0
-${summstats_path}/${trait_name1}.sumstats.gz,${summstats_path}/${trait_name2}.sumstats.gz --ref-ld ${ldsc_path}/UKBB.EUR --w-ld ${ldsc_path}/UKBB.EUR 
-```
 
-### Step 2: Making adjustments
-
-
-
-## :key: An example
+### Step 0: Download files
 Download munged GWAS summary statistics for participation:
 ```
 path=/home/local/ (change to your working path)
@@ -127,12 +115,18 @@ mkdir ./sumstats
 wget -O ./sumstats/PB.sumstats.gz https://github.com/shuangsong0110/ParticipationBias/raw/refs/heads/main/example_data/PB.sumstats.gz
 ```
 
-Download munged GWAS summary statistics for educational attainment:
+Download munged GWAS summary statistics for EA (Users could also specify their own GWAS summary statistics):
 ```
 wget -O ./sumstats/EA.sumstats.gz https://github.com/shuangsong0110/ParticipationBias/raw/refs/heads/main/example_data/EA.sumstats.gz
 ```
 
-Perform LDSC (python2):
+Download munged GWAS summary statistics for BMI (Users could also specify their own GWAS summary statistics):
+```
+wget -O ./sumstats/BMI.sumstats.gz https://github.com/shuangsong0110/ParticipationBias/raw/refs/heads/main/example_data/BMI.sumstats.gz
+```
+
+### Step 1: Run LDSC
+1. Participation & EA
 ```
 path=/home/local/ (specify your working path)
 trait_name='EA'
@@ -141,14 +135,27 @@ cd ${path}/results_${trait_name}
 python ${path}/ldsc_jackknife/ldsc.py --rg ${path}/sumstats/PB.sumstats.gz,${path}/sumstats/${trait_name}.sumstats.gz --ref-ld ${path}/ldsc_jackknife/UKBB.EUR --w-ld ${path}/ldsc_jackknife/UKBB.EUR --intercept-gencov 0,0 --out res_rg
 ```
 
-Make adjustments:
+2. Participation & BMI
 ```
-library(ParticipationBias)
-res <- h2_PB_adjust(path='/home/local/', ## specify your working path, consistent to the LDSC path
-                    mean_shift=0.438,
-                    trait_name='EA')
-print(res)
+path=/home/local/ (specify your working path)
+trait_name='BMI'
+mkdir ${path}/results_${trait_name}
+cd ${path}/results_${trait_name}
+python ${path}/ldsc_jackknife/ldsc.py --rg ${path}/sumstats/PB.sumstats.gz,${path}/sumstats/${trait_name}.sumstats.gz --ref-ld ${path}/ldsc_jackknife/UKBB.EUR --w-ld ${path}/ldsc_jackknife/UKBB.EUR --intercept-gencov 0,0 --out res_rg
 ```
+
+3. EA & BMI
+```
+path=/home/local/ (specify your working path)
+trait_name1='EA'
+trait_name2='BMI'
+mkdir ${path}/results_${trait_name1}_${trait_name2}
+cd ${path}/results_${trait_name1}_${trait_name2}
+python ${path}/ldsc_jackknife/ldsc.py --rg ${path}/sumstats/${trait_name1}.sumstats.gz,${path}/sumstats/${trait_name2}.sumstats.gz --ref-ld ${path}/ldsc_jackknife/UKBB.EUR --w-ld ${path}/ldsc_jackknife/UKBB.EUR --out res_rg
+```
+
+### Step 2: Making adjustments
+
 
 
 
