@@ -108,25 +108,25 @@ print(res)
 Here we use the **genetic correlation** between Educational Attainment (**EA**) and **BMI** as an example.
 
 ### Step 0: Download files
-Download munged GWAS summary statistics for participation:
+Download munged GWAS summary statistics for **participation**:
 ```
 path=/home/local/ (change to your working path)
 mkdir ./sumstats
 wget -O ./sumstats/PB.sumstats.gz https://github.com/shuangsong0110/ParticipationBias/raw/refs/heads/main/example_data/PB.sumstats.gz
 ```
 
-Download munged GWAS summary statistics for EA (Users could also specify their own GWAS summary statistics):
+Download munged GWAS summary statistics for **EA** (Users could also specify their own GWAS summary statistics):
 ```
 wget -O ./sumstats/EA.sumstats.gz https://github.com/shuangsong0110/ParticipationBias/raw/refs/heads/main/example_data/EA.sumstats.gz
 ```
 
-Download munged GWAS summary statistics for BMI (Users could also specify their own GWAS summary statistics):
+Download munged GWAS summary statistics for **BMI** (Users could also specify their own GWAS summary statistics):
 ```
 wget -O ./sumstats/BMI.sumstats.gz https://github.com/shuangsong0110/ParticipationBias/raw/refs/heads/main/example_data/BMI.sumstats.gz
 ```
 
 ### Step 1: Run LDSC
-1. Participation & EA
+**1. Participation & EA**
 ```
 path=/home/local/ (specify your working path)
 trait_name='EA'
@@ -135,7 +135,7 @@ cd ${path}/results_${trait_name}
 python ${path}/ldsc_jackknife/ldsc.py --rg ${path}/sumstats/PB.sumstats.gz,${path}/sumstats/${trait_name}.sumstats.gz --ref-ld ${path}/ldsc_jackknife/UKBB.EUR --w-ld ${path}/ldsc_jackknife/UKBB.EUR --intercept-gencov 0,0 --out res_rg
 ```
 
-2. Participation & BMI
+**2. Participation & BMI**
 ```
 path=/home/local/ (specify your working path)
 trait_name='BMI'
@@ -144,7 +144,7 @@ cd ${path}/results_${trait_name}
 python ${path}/ldsc_jackknife/ldsc.py --rg ${path}/sumstats/PB.sumstats.gz,${path}/sumstats/${trait_name}.sumstats.gz --ref-ld ${path}/ldsc_jackknife/UKBB.EUR --w-ld ${path}/ldsc_jackknife/UKBB.EUR --intercept-gencov 0,0 --out res_rg
 ```
 
-3. EA & BMI
+**3. EA & BMI**
 ```
 path=/home/local/ (specify your working path)
 trait_name1='EA'
@@ -155,7 +155,13 @@ python ${path}/ldsc_jackknife/ldsc.py --rg ${path}/sumstats/${trait_name1}.sumst
 ```
 
 ### Step 2: Making adjustments
-
+```
+library(ParticipationBias)
+res <- gcor_PB_adjust(path='/home/local/', ## specify your working path, consistent to the LDSC path
+                    mean_shift=0.438,
+                    trait_name='EA')
+print(res)
+```
 
 
 
