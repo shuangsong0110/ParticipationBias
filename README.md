@@ -56,7 +56,7 @@ Please prepare the GWAS summary statistics in the following format (including th
 python2 ./munge_sumstats.py --sumstats ./trait1.txt  --merge-alleles pan.snipar.snplist --out ./trait1.summs
 ```
 
-## :rocket: Example 1 Heritability adjustments
+## :rocket: Example 1: Heritability adjustments
 ### Step 1: Run LDSC
 ```
 cd ${result_path}
