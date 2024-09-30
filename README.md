@@ -22,8 +22,8 @@ The software is developed and tested in Linux and Windows environments.
 ## :hammer_and_wrench: Installation
 Download the jackknife LDSC software:
 ```
-wget -O ldsc_jackknife.zip https://hu-my.sharepoint.com/:u:/g/personal/shuangsong_hsph_harvard_edu/ER4kG_r7dgpIlyHdjI0opPYB6o1p8K3ppP9DRQC__NmZRQ?e=PH4LKe
-gzip -d ldsc_jackknife.zip
+wget -O ldsc_jackknife.tar.gz https://hu-my.sharepoint.com/:u:/g/personal/shuangsong_hsph_harvard_edu/ER4kG_r7dgpIlyHdjI0opPYB6o1p8K3ppP9DRQC__NmZRQ?e=PH4LKe
+tar -zxvf ldsc_jackknife.tar.gz
 ```
 
 In R:
@@ -96,17 +96,19 @@ ${summstats_path}/${trait_name1}.sumstats.gz,${summstats_path}/${trait_name2}.su
 ## :key: An example
 Download munged GWAS summary statistics for participation:
 ```
-wget -O PB.sumstats.gz https://hu-my.sharepoint.com/:u:/r/personal/shuangsong_hsph_harvard_edu/Documents/research_share/ParticipationBias/PB.sumstats.gz?csf=1&web=1&e=OtgQ1L
+mkdir ./sumstats
+wget -O ./sumstats/PB.sumstats.gz https://hu-my.sharepoint.com/:u:/g/personal/shuangsong_hsph_harvard_edu/ESW7fPcQgT5PqjfrWJ56SVMByHbYxO2k9MwNPjskeXq-AA?e=MJ6U3G
 ```
 
 Download munged GWAS summary statistics for educational attainment:
 ```
-wget -O EA.sumstats.gz https://hu-my.sharepoint.com/:u:/r/personal/shuangsong_hsph_harvard_edu/Documents/research_share/ParticipationBias/EA.sumstats.gz?csf=1&web=1&e=bXlEGz
+wget -O ./sumstats/EA.sumstats.gz https://hu-my.sharepoint.com/:u:/g/personal/shuangsong_hsph_harvard_edu/EfsTBJKUxMJMpPAx_p69fCQB1ZZVKTWM86_aNEK4EXmJog?e=0Ho7qS
 ```
 
 Perform LDSC (python2):
 ```
-python ./ldsc.py --rg PB.sumstats.gz,EA.sumstats.gz --ref-ld UKBB.EUR --w-ld UKBB.EUR --intercept-gencov 0,0
+mkdir ./results_EA
+python ./ldsc_jackknife/ldsc.py --rg PB.sumstats.gz,EA.sumstats.gz --ref-ld ./ldsc_jackknife/UKBB.EUR --w-ld ./ldsc_jackknife/UKBB.EUR --intercept-gencov 0,0 --out ./results_EA
 ```
 
 Make adjustments:
