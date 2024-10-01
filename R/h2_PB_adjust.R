@@ -18,9 +18,11 @@ h2_PB_adjust <- function(path, mean_shift, trait_name='trait1',
                          lambda=2, shift_sd=1/sqrt(20208)){
   set.seed(666)
   #path <- result_path
-  system(paste0("grep ' ", path,
-  "sumstats/PB.sumstats.gz  ", path, "sumstats/", trait_name, ".sumstats.gz' ",path,'results_',trait_name,"/res_rg.log  > ",path,'/results_',trait_name,"/res_rg_tab.log"))
-  a=read_log(paste0(path,'results_',trait_name,'/res_rg_tab.log'), progress=F)
+  # system(paste0("grep ' ", path,
+  # "sumstats/PB.sumstats.gz  ", path, "sumstats/", trait_name, ".sumstats.gz' ",path,'results_',trait_name,"/res_rg.log  > ",path,'/results_',trait_name,"/res_rg_tab.log"))
+  system(paste0("grep -A 2 'Summary of Genetic Correlation Results' ",path,'results_',trait_name,"/res_rg.log  | tail -n 1 > ",path,'/results_',trait_name,"/res_rg_tab.log"))
+
+   a=read_log(paste0(path,'results_',trait_name,'/res_rg_tab.log'), progress=F)
   if(a$X7=='NA'){
     return(NA)
   }
