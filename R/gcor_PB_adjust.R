@@ -30,7 +30,7 @@ gcor_PB_adjust <- function(path, mean_shift1, mean_shift2,
   if(T){
     # system(paste0("grep ' ", path,
     #               "sumstats/PB.sumstats.gz  ", path, "sumstats/", trait_name1, ".sumstats.gz' ",path,'results_',trait_name1,"/res_rg.log  > ",path,'/results_',trait_name1,"/res_rg_tab.log"))
-    system(paste0("grep -A 2 'Summary of Genetic Correlation Results' ",path,'results_',trait_name,"/res_rg.log  | tail -n 1 > ",path,'/results_',trait_name,"/res_rg_tab.log"))
+    system(paste0("grep -A 2 'Summary of Genetic Correlation Results' ",path,'results_',trait_name1,"/res_rg.log  | tail -n 1 > ",path,'/results_',trait_name1,"/res_rg_tab.log"))
 
 
     a=read_log(paste0(path,'results_',trait_name1,'/res_rg_tab.log'), progress=F)
@@ -57,9 +57,11 @@ gcor_PB_adjust <- function(path, mean_shift1, mean_shift2,
   # trait <- trait3
   # shift <- shift3
   if(T){
-    system(paste0("grep ' ", path,
-                  "sumstats/PB.sumstats.gz  ", path, "sumstats/", trait_name2, ".sumstats.gz' ",path,'results_',trait_name2,"/res_rg.log  > ",path,'/results_',trait_name2,"/res_rg_tab.log"))
-    a=read_log(paste0(path,'results_',trait_name2,'/res_rg_tab.log'), progress=F)
+    # system(paste0("grep ' ", path,
+    #               "sumstats/PB.sumstats.gz  ", path, "sumstats/", trait_name2, ".sumstats.gz' ",path,'results_',trait_name2,"/res_rg.log  > ",path,'/results_',trait_name2,"/res_rg_tab.log"))
+    system(paste0("grep -A 2 'Summary of Genetic Correlation Results' ",path,'results_',trait_name2,"/res_rg.log  | tail -n 1 > ",path,'/results_',trait_name2,"/res_rg_tab.log"))
+
+    read_log(paste0(path,'results_',trait_name2,'/res_rg_tab.log'), progress=F)
     if(a$X7=='NA'){
       return(NA)
     }
@@ -84,8 +86,10 @@ gcor_PB_adjust <- function(path, mean_shift1, mean_shift2,
   # pheno1 <- trait2
   # pheno2 <- trait3
   if(T){
-    system(paste0("grep ' ", path,
-                  "sumstats/", trait_name1,".sumstats.gz  ", path, "sumstats/", trait_name2, ".sumstats.gz' ",path,'results_',trait_name1, '_', trait_name2,"/res_rg.log  > ",path,'/results_',trait_name1,'_', trait_name2,"/res_rg_tab.log"))
+    # system(paste0("grep ' ", path,
+    #               "sumstats/", trait_name1,".sumstats.gz  ", path, "sumstats/", trait_name2, ".sumstats.gz' ",path,'results_',trait_name1, '_', trait_name2,"/res_rg.log  > ",path,'/results_',trait_name1,'_', trait_name2,"/res_rg_tab.log"))
+    system(paste0("grep -A 2 'Summary of Genetic Correlation Results' ",path,'results_',trait_name1, '_', trait_name2,"/res_rg.log  | tail -n 1 > ",path,'/results_',trait_name1, '_', trait_name2,"/res_rg_tab.log"))
+
     a=read_log(paste0(path,'results_',trait_name1, '_', trait_name2,'/res_rg_tab.log'), progress=F)
     phig_est <- a$X3
     phig_est_se <- a$X4
