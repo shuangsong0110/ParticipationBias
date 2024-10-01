@@ -82,6 +82,7 @@ python ${path}/ldsc_jackknife/ldsc.py --rg ${path}/sumstats/PB.sumstats.gz,${pat
 ```
 
 ### Step 2: Making adjustments
+In R:
 ```
 library(ParticipationBias)
 res_h2 <- h2_PB_adjust(path = '/home/local/', ## specify your working path, consistent to the LDSC path
@@ -155,6 +156,7 @@ python ${path}/ldsc_jackknife/ldsc.py --rg ${path}/sumstats/${trait_name1}.sumst
 ```
 
 ### Step 2: Making adjustments
+In R:
 ```
 library(ParticipationBias)
 res_gcor <- gcor_PB_adjust(path = '/home/local/', ## specify your working path, consistent to the LDSC path
