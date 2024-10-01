@@ -167,3 +167,12 @@ print(res_gcor)
 
 Please contact Shuang Song (shuangsong@hsph.harvard.edu) if there are any problems or questions.
 
+## Acknowledgements
+The GWAS summary statistics for BMI and EA are based on UKBB European samples.
+
+The GWAS summary statistics for participation are derived with the method described in Benonisdottir and Kong (2023) (GWAS catalog accession codes: GCST90267220, GCST90267221, GCST90267222 and GCST90267223)
+
+The original estimation of heritability and genetic correlation is based on LDSC method (https://github.com/bulik/ldsc/wiki).
+
+
+
