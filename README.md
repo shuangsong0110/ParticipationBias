@@ -51,6 +51,8 @@ Please prepare the GWAS summary statistics in the following format (including th
 
 **N**: GWAS sample size
 
+**P**: GWAS p value
+
 ### Munge summary statistics for trait 1:
 ```
 python2 ./munge_sumstats.py --sumstats ./trait1.txt  --merge-alleles pan.snipar.snplist --out ./trait1.summs
