@@ -34,10 +34,10 @@ devtools::install_github("shuangsong0110/ParticipationBias")
 ## :scroll: Prepare GWAS summary statistics
 Please prepare the GWAS summary statistics in the following format (including the header line, sep='\t'):
 ```
-     SNP      A1    A2       Z         N       
- rs4040617    G     A     -0.199     360000
- rs4075116    C     T      0.646     360000
- rs9442385    T     G     -0.016     360000
+     SNP      A1    A2       Z         N         P
+ rs4040617    G     A     -0.199     360000    0.84
+ rs4075116    C     T      0.646     360000    0.52
+ rs9442385    T     G     -0.016     360000    0.98
     ...
 ```
 
